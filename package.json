@@ -1,0 +1,28 @@
+{
+  "name": "@ipcrm/hello_world",
+  "version": "0.0.1",
+  "description": "Hello World NodeJS App (with TotalJS)",
+  "main": "release.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "total.js": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node release.js",
+    "debug": "node debug.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipcrm/nodejs_hello_world.git"
+  },
+  "author": "ipcrm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipcrm/nodejs_hello_world/issues"
+  },
+  "homepage": "https://github.com/ipcrm/nodejs_hello_world#readme"
+}
