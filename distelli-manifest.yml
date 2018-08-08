@@ -1,0 +1,20 @@
+ipcrm/nodejs_hello_world:
+  PreBuild:
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  Build:
+    - source ~/.nvm/nvm.sh
+    - nvm install v8.11.3
+    - npm install
+    - npm test
+    - docker login -u "$DISTELLI_DOCKER_USERNAME" -p "$DISTELLI_DOCKER_PW" $DISTELLI_DOCKER_ENDPOINT
+    - docker build --quiet=false -t "$DISTELLI_DOCKER_REPO" $DISTELLI_DOCKER_PATH
+    - docker tag "$DISTELLI_DOCKER_REPO" "$DISTELLI_DOCKER_REPO:$DISTELLI_BUILDNUM"
+    - docker push "$DISTELLI_DOCKER_REPO:$DISTELLI_BUILDNUM"
+  PreInstall:
+    - sudo docker login -u "$DISTELLI_DOCKER_USERNAME" -p "$DISTELLI_DOCKER_PW" "$DISTELLI_DOCKER_ENDPOINT"
+  Exec:
+    - cid=$(uuidgen)
+    - trap 'sudo docker stop $cid' SIGTERM
+    - sudo -E docker run --name=$cid $DISTELLI_DOCKER_ENVS --rm=true $DISTELLI_DOCKER_PORTS "$DISTELLI_DOCKER_REPO:$DISTELLI_BUILDNUM" &
+    - wait
+    - "true"
