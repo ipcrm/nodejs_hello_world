@@ -1,4 +1,6 @@
 ipcrm/nodejs_hello_world:
+  Env:
+    - PORT: "8000"
   PreBuild:
     - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
   Build:
@@ -15,6 +17,6 @@ ipcrm/nodejs_hello_world:
   Exec:
     - cid=$(uuidgen)
     - trap 'sudo docker stop $cid' SIGTERM
-    - sudo -E docker run --name=$cid $DISTELLI_DOCKER_ENVS --rm=true $DISTELLI_DOCKER_PORTS "$DISTELLI_DOCKER_REPO:$DISTELLI_BUILDNUM" &
+    - sudo -E docker run --name=$cid $DISTELLI_DOCKER_ENVS --rm=true -p $PORT:8000 "$DISTELLI_DOCKER_REPO:$DISTELLI_BUILDNUM" &
     - wait
     - "true"
